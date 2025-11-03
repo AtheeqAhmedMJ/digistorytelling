@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Night I Learnt To Drive In The Bengaluru Chaos — Full Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            color: #fff;
+        }
+
+        .scene {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            z-index: 1;
+        }
+
+        .scene::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px) brightness(0.6);
+            opacity: 0;
+            transform: scale(1.1);
+            transition: opacity 2.5s ease-out, filter 3s ease-out, transform 3s ease-out;
+            z-index: -2;
+        }
+
+        .scene.visible::before {
+            opacity: 1;
+            filter: blur(3px) brightness(0.85);
+            transform: scale(1);
+        }
+
+        .scene::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: -1;
+        }
+
+        .text-content {
+            max-width: 900px;
+            color: #fff;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            transition: all 1.2s ease;
+            text-shadow: 2px 2px 30px rgba(0,0,0,0.95);
+            position: relative;
+            z-index: 1;
+            background: rgba(0,0,0,0.5);
+            padding: 45px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+        }
+
+        .scene.visible .text-content {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .title {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            letter-spacing: 4px;
+            line-height: 1.2;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, #ffd700 50%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                filter: drop-shadow(0 0 15px rgba(255,215,0,0.4));
+                transform: scale(1);
+            }
+            50% { 
+                filter: drop-shadow(0 0 25px rgba(255,215,0,0.7));
+                transform: scale(1.02);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1.3rem;
+            opacity: 0.95;
+            text-align: center;
+            color: #ffd700;
+            font-weight: 400;
+        }
+
+        .author {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            text-align: center;
+            letter-spacing: 1.5px;
+            font-weight: 300;
+        }
+
+        .chapter-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.8rem;
+            letter-spacing: 2px;
+            color: #ffd700;
+            border-left: 5px solid #ffd700;
+            padding-left: 20px;
+            text-shadow: 0 0 20px rgba(255,215,0,0.5);
+        }
+
+        .text {
+            font-size: 1.12rem;
+            line-height: 2;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            font-weight: 300;
+        }
+
+        .text.large {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin: 1.8rem 0;
+            text-align: center;
+        }
+
+        .text.italic {
+            font-style: italic;
+            opacity: 0.95;
+            color: #ffd700;
+            font-size: 1.2rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 1.05rem;
+            opacity: 0;
+            animation: fadeInBounce 2s ease-in forwards, bounce 2.5s ease-in-out 2s infinite;
+            z-index: 10;
+            text-shadow: 0 0 15px rgba(255,215,0,0.6);
+            font-weight: 600;
+            letter-spacing: 3px;
+        }
+
+        @keyframes fadeInBounce {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            100% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-18px); }
+        }
+
+        /* Background images for each scene */
+        #scene1::before { 
+            background-image: url('https://images.unsplash.com/photo-1693153201102-a290be4bb7eb?fm=jpg&q=80&w=2000');
+        }
+        #scene2::before { 
+            background-image: url('https://images.pexels.com/photos/29848581/pexels-photo-29848581.jpeg?auto=compress&cs=tinysrgb&w=1920');
+        }
+        #scene3::before { 
+            background-image: url('https://i0.wp.com/pixahive.com/wp-content/uploads/2020/09/Light-trails-of-Bangalore-67990-pixahive.jpg?fit=2560%2C1706&ssl=1');
+        }
+        #scene4::before { 
+            background-image: url('https://www.team-bhp.com/forum/attachments/travelogues/2175541d1625552512-best-night-drive-routes-indian-cities-img0063.jpg');
+        }
+        #scene5::before { 
+            background-image: url('https://images.unsplash.com/photo-1624196639293-b04b44d39b59?fm=jpg&q=80&w=2000');
+        }
+        #scene6::before { 
+            background-image: url('https://images.indianexpress.com/2024/08/traffic-1600.jpg');
+        }
+        #scene7::before { 
+            background-image: url('https://i.pinimg.com/736x/11/54/1f/11541f682c8222e682dbfeef4b8ffe98.jpg');
+        }
+        #scene8::before { 
+            background-image: url('https://images.picxy.com/cache/2022/2/6/5ee968d91c39523be3aa69786b64b47a.jpg');
+        }
+        #scene9::before { 
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/27/Night_lit_by_street_lights_in_Panchkula%2C_India.jpg');
+        }
+        #scene10::before { 
+            background-image: url('https://i.pinimg.com/736x/48/06/f4/4806f48a64d3c58be1010a2b417a1f96.jpg');
+        }
+        #scene11::before { 
+            background-image: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1920&q=80');
+        }
+
+        .pdf-container {
+    width: 100%;
+    max-width: 1400px;  /* wider canvas for landscape */
+    padding: 30px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+}
+
+.pdf-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;  /* ensures landscape proportions */
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+    overflow: hidden;
+}
+
+
+        @media (max-width: 768px) {
+            .pdf-frame {
+                height: 70vh;
+            }
+        }
+            .title { font-size: 2.5rem; letter-spacing: 2px; }
+            .subtitle { font-size: 1.2rem; }
+            .chapter-title { font-size: 1.5rem; }
+            .text { font-size: 1rem; line-height: 1.8; }
+            .text.large { font-size: 1.15rem; }
+            .text-content { padding: 28px; border-radius: 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .title { font-size: 2rem; }
+            .text-content { padding: 22px; }
+            .scroll-indicator { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator">↓ SCROLL TO BEGIN ↓</div>
+
+    <!-- Scene 1: Title -->
+    <div class="scene" id="scene1">
+        <div class="text-content">
+            <h1 class="title">Night I Learnt To Drive In<br>The Bengaluru Chaos</h1>
+            <p class="subtitle">Baptism by Traffic</p>
+            <p class="author">By Atheeq Ahmed M J<br>BU22CSEN0600198</p>
+        </div>
+    </div>
+
+    <!-- Scene 2: Prologue -->
+    <div class="scene" id="scene2">
+        <div class="text-content">
+            <h2 class="chapter-title">Prologue</h2>
+
+            <p class="text">It had been a mere three months since I earned the dubious title of 'driver.' Three months of white-knuckle learning, mostly spent in empty lots, still figuring out how to stop the car without everyone performing an involuntary, head-bobbing popcorn routine. So when my friends—my full, enthusiastic crew—suggested our very first road trip to a massive concert in Bengaluru, I felt that familiar split. One half of my brain was throwing a party; the other was prepping a frantic, screaming obituary. This is going to be fun… or this is going to end very badly. That little voice was a siren of both thrill and dread.</p>
+
+            <p class="text">The concert was a sensory explosion. The bass drum was a physical thump, the lights were a frantic strobe, and the crowd was a thousand-headed monster. We were brilliant, loud, and utterly alive.</p>
+
+            <p class="text">But then the final encore faded, the house lights came up, and the real, terrifying show began: The Concert of Horns.</p>
+        </div>
+    </div>
+
+    <!-- Scene 3: Chapter One -->
+    <div class="scene" id="scene3">
+        <div class="text-content">
+            <h2 class="chapter-title">Chapter One: The Parking Lot Inferno</h2>
+
+            <p class="text">Imagine a stadium parking lot—a sloping, gravelly hill—with over a thousand metal beasts suddenly roaring to life. Pure, unadulterated, Bengaluru traffic chaos. Cars were lined up bumper-to-bumper. People were so close they might as well have been exchanging social media handles. A millimeter of error, a tiny slip of the clutch, and—bam—two cars would be intimately, expensively kissing.</p>
+
+            <p class="text large">And guess who was sitting in the epicenter of this metallic, grinding hell? Me.</p>
+
+            <p class="text">My personal trifecta of disaster? I was still a novice, I didn't have a proper license, and the car's insurance papers were questionable at best. Yes, yes, I know what you're thinking: What could possibly go wrong?</p>
+
+            <p class="text">Prajwal, my trusted co-pilot and second set of eyes, sat beside me, leaning forward, his gaze fixed on the bumper ahead. Sandesh was hunched over his phone in the back, while Keerthana was already bouncing with impatient energy.</p>
+
+            <p class="text">The two hours we spent crawling out felt like a fever dream. The full spectrum of Indian drivers was on display: the Road-Ragers, the Impatient Honkers, and the Existential Geniuses making illegal turns.</p>
+        </div>
+    </div>
+
+    <!-- Scene 4: Inside the car -->
+    <div class="scene" id="scene4">
+        <div class="text-content">
+            <p class="text italic">"Don't mess this up. Don't mess this up."</p>
+
+            <p class="text">My palms were slick against the steering wheel's plastic. The air in the car was thick with petrol fumes and our collective, held breath. Inside my head, a mantra was playing on repeat: Don't mess this up. Don't mess this up.</p>
+
+            <p class="text">Suddenly, the car ahead slammed its brakes.</p>
+
+            <p class="text">"Whoa! Brake, brake, Atheeq!" Prajwal hissed, his hand instinctively reaching for the handbrake.</p>
+
+            <p class="text">"I'm braking! I'm braking!" I stammered, my foot trembling on the pedal.</p>
+
+            <p class="text">"Did we hit him? Are we touching?" Sandesh yelled, craning his neck wildly. "I think we're touching! This is going to cost us the concert money!"</p>
+
+            <p class="text">"No, no, we're good! Just keep moving slowly," Keerthana said, trying to override the panic. "Just watch Prajwal's hand signs, Atheeq. Ignore the horns, it's just noise."</p>
+
+            <p class="text">"Ignore the horns? It sounds like a thousand geese are dying!" Sandesh griped, sinking lower into his seat.</p>
+
+            <p class="text">"Keep going, Atheeq. Half-clutch. Just a little. You got this," Prajwal coached, his voice low and steady, cutting through the noise.</p>
+
+            <p class="text">We were surrounded by blaring horns, shouting faces, and inches of steel. Every time I managed to move a foot, some impatient scooter would try to snake in, forcing me to jam the brake again.</p>
+
+            <p class="text">"He's cutting! That guy is cutting!" Prajwal snapped.</p>
+
+            <p class="text">"My God, Google Maps shows us moving at zero kilometers per hour," Sandesh mumbled, staring at his phone in disbelief. "We could get out and sprint faster than this."</p>
+
+            <p class="text">"Just ignore the maps, Sandesh! Focus on the exit sign!" Keerthana commanded, her voice the only anchor. "We are almost out. See the lights?"</p>
+        </div>
+    </div>
+
+    <!-- Scene 5: Escape -->
+    <div class="scene" id="scene5">
+        <div class="text-content">
+            <p class="text">Inch by agonizing inch, with the clutch smoking and my leg aching, we clawed our way out and onto the main road. The feeling of finally clearing that nightmare parking lot was like taking my first breath after being underwater for too long. (You saw that? That was pure, unfiltered survival. This is what driving manuals don't teach you.)</p>
+        </div>
+    </div>
+
+    <!-- Scene 6: Chapter Two -->
+    <div class="scene" id="scene6">
+        <div class="text-content">
+            <h2 class="chapter-title">Chapter Two: Highway Circus and a Midnight Breather</h2>
+
+            <p class="text">The highway was no relief; it was a speed-crazed circus. The auto-rickshaw drivers, tiny green and yellow darts, were darting and weaving. The bus drivers? Monsters on wheels, using sheer mass and intimidation to squeeze into lanes that didn't exist.</p>
+
+            <p class="text">"Look at that bus! Did he just overtake from the left on the shoulder?" Sandesh shrieked, pointing wildly. "That's not driving, that's just... aggression on wheels."</p>
+
+            <p class="text">"Close shave, close shave!" Prajwal muttered, exhaling sharply. "Just focus on our lane, Atheeq. Don't look at them."</p>
+
+            <p class="text">My adrenaline was still pumping, but the pace finally picked up. Keerthana was right—we were making progress. "We're almost there, guys! A little more! I'm already thinking about dinner!" she cheered.</p>
+        </div>
+    </div>
+
+    <!-- Scene 7: Midnight breather -->
+    <div class="scene" id="scene7">
+        <div class="text-content">
+            <p class="text">Finally, around midnight, we found a stretch of salvation. We pulled over, got out, and burst into that hysterical, manic laughter that only comes after you've narrowly escaped a vehicular disaster.</p>
+
+            <p class="text">"I think my legs are actually trembling," Prajwal admitted, leaning against the car.</p>
+
+            <p class="text">"I swear my butt is permanently molded to this car seat," Sandesh groaned, stretching theatrically. "Also, my phone battery is dead from looking at the red lines. Anyone got food ideas that aren't traffic-induced rage?"</p>
+
+            <p class="text">"We need to find a Dhaba," Keerthana said firmly. "A proper dinner, now. We deserve it."</p>
+
+            <p class="text">Just as we calmed down, the soft, whispering rain began. By the time we ate and returned to the car, it was 4:00 a.m.</p>
+        </div>
+    </div>
+
+    <!-- Scene 8: Chapter Three -->
+    <div class="scene" id="scene8">
+        <div class="text-content">
+            <h2 class="chapter-title">Chapter Three: The Calm After the Storm</h2>
+
+            <p class="text">The city was finally asleep. The windshield was misted with soft rain, the interior was quiet, and we were slumped, exhausted but content, sipping water. It felt utterly cinematic—the final, serene shot after the chaos.</p>
+
+            <p class="text">Sandesh broke the silence, a wide grin spreading across his face. "You know, Atheeq, if you can handle that parking lot, the RTO test is going to feel like driving in a playground."</p>
+
+            <p class="text">"He's right," Prajwal said, nodding slowly. "Black belt in Bengaluru traffic, earned tonight."</p>
+
+            <p class="text">"Seriously, you were amazing! Super calm under pressure. We totally made it because you didn't freak out," Keerthana concluded, giving me a thumbs up.</p>
+        </div>
+    </div>
+
+    <!-- Scene 9: Reflection -->
+    <div class="scene" id="scene9">
+        <div class="text-content">
+            <p class="text">Looking back, I know it was reckless. But that terrifying, beautiful night taught me more than any sterile driving school ever could. It wasn't about clutch control; it was about staying calm when the world feels insane, and about finding a weird, profound joy in the middle of chaos. (Sometimes, you have to be slightly stupid to get the best stories.)</p>
+
+            <p class="text">Even today, when life gets boring, my gang and I spontaneously go out "just for lunch" and inevitably end up across the city at midnight. But those are the memories, aren't they? Because that night in Bengaluru, I learned the greatest truth about the road: The best journeys are never smooth. They are messy, they are stressful, but they are the ones you will never, ever forget.</p>
+        </div>
+    </div>
+
+    <!-- Scene 10: Epilogue -->
+    <div class="scene" id="scene10">
+        <div class="text-content">
+            <h2 class="chapter-title">Epilogue</h2>
+
+            <p class="text">Weeks later, I drove down the same stretch of road again — alone this time. No Prajwal coaching me through half-clutch maneuvers, no Sandesh complaining about Google Maps, no Keerthana cheering us through the chaos. Just me, the hum of the engine, and the oddly comforting rhythm of the city that had once terrified me.</p>
+
+            <p class="text">Bengaluru was still the same — the honks, the near-misses, the scooters cutting through gaps that defied geometry. But I wasn't the same. My hands no longer trembled on the steering wheel, and every stoplight didn't feel like an existential test. Somewhere between the horns and headlights of that unforgettable night, fear had turned into confidence.</p>
+
+            <p class="text">Driving had become more than a skill. It was a metaphor for growing up in this city — learning to find flow amid madness, calm amid noise. Every gear shift now carried a quiet assurance: you survived that night, you can handle this too.</p>
+
+            <p class="text">When I parked at a signal that morning, a scooterist glanced at me impatiently, revving to cut ahead. I smiled, waved him through, and let him go. For the first time, I realized I wasn't racing anyone anymore. I was just... driving.</p>
+
+            <p class="text large italic">That night — my baptism by traffic — wasn't just about learning to handle a car. It was about learning to handle life. And as the signal turned green, I drove off into the morning light, the city roaring awake around me, feeling oddly at peace.</p>
+
+            <p class="text large italic">Because now, I belong to the chaos.</p>
+        </div>
+    </div>
+
+    <!-- Scene 11: PDF Document -->
+    <div class="scene" id="scene11">
+        <div class="text-content pdf-container">
+            <h2 class="chapter-title">Full Story Document</h2>
+            <p class="text" style="text-align: center; margin-bottom: 2rem;">Read the complete story in PDF format below</p>
+            <iframe src="comic.pdf" class="pdf-frame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const scenes = document.querySelectorAll('.scene');
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { 
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        scenes.forEach(scene => observer.observe(scene));
+
+        // Hide scroll indicator after scrolling
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > window.innerHeight / 2) {
+                scrollIndicator.style.opacity = '0';
+            } else {
+                scrollIndicator.style.opacity = '0.9';
+            }
+        });
+    </script>
+
+</body>
+</html>
